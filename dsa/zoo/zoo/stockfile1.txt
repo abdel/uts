@@ -1,0 +1,25 @@
+4
+165823
+m
+C43
+Mammalia
+Gorilla
+Gorilla gorilla
+165623
+f
+C43
+Mammalia
+Gorilla
+Gorilla gorilla
+165723
+f
+C43
+Mammalia
+Gorilla
+Gorilla gorilla
+629531
+m
+A78
+Reptilia
+Dendroaspis
+Dendroaspis polylepis
