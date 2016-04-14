@@ -11,7 +11,7 @@ using namespace std;
       
 void swap(vector<employee> employees, int a, int b);
 void sortEmployees(vector<employee> &employees);
-void printEmployees(const vector<employee> &employees);
+void printEmployees(vector<employee> &employees);
 void loadEmployees(vector<employee> &employees, const char *file);
 
 int main(int argc, char *argv[])
