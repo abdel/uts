@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <limits.h>
 
 int precedence(char * operator);
 int is_number(char * input);
@@ -24,8 +23,8 @@ int is_number(char * input)
    int i = 0;
    char * validInputs = "0123456789";
    
-   // Ignore first signs
-   if (input[0] == '-' || input[0] == '+')
+   // Ignore negative sign
+   if (input[0] == '-')
    {
       i = 1;
    }
@@ -159,20 +158,13 @@ float compute_rpn(char ** tokens, int size)
 
 float compute_operator(char* operator, int leftNumber, int rightNumber)
 {
-   int result = 0;
-   
-   if ('x' == *operator) result = leftNumber * rightNumber;
+   if ('x' == *operator) return leftNumber * rightNumber;
    if ('/' == *operator) return leftNumber / rightNumber;
    if ('+' == *operator) return leftNumber + rightNumber;
    if ('-' == *operator) return leftNumber - rightNumber;
    if ('%' == *operator) return fmod(leftNumber, rightNumber);
    if ('^' == *operator) return powf(leftNumber, rightNumber);
-   
-   if ((leftNumber * rightNumber) > INT_MAX) {
-      printf("test");
-   }
-   
-   return result;
+   return 0;
 }
 
 int main(int argc, char* argv[])
@@ -197,7 +189,6 @@ int main(int argc, char* argv[])
    
    // Using float for more accurate results
    int result = compute_rpn(rpn, size);
-   
    
    printf("%d\n", result);
 }
