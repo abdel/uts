@@ -1,6 +1,7 @@
 *.o
 *.out
 *.zip
+*.*~
 
 # Xcode
 .DS_Store
