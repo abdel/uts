@@ -25,6 +25,14 @@
 /* Begin PBXFileReference section */
 		9EDDAA3E1CF0635D0066229A /* dsa_assign2 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = dsa_assign2; sourceTree = BUILT_PRODUCTS_DIR; };
 		9EDDAA411CF0635D0066229A /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		9EDDAA481CF063D70066229A /* binnode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = binnode.h; sourceTree = "<group>"; };
+		9EDDAA491CF063D70066229A /* bintree.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = bintree.h; sourceTree = "<group>"; };
+		9EDDAA4A1CF063D70066229A /* const_iterator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = const_iterator.h; sourceTree = "<group>"; };
+		9EDDAA4B1CF063D70066229A /* morsecodes.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = morsecodes.txt; sourceTree = "<group>"; };
+		9EDDAA4D1CF066F10066229A /* MorseCode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MorseCode.h; sourceTree = "<group>"; };
+		9EDDAA4E1CF077C10066229A /* english.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = english.txt; sourceTree = "<group>"; };
+		9EDDAA4F1CF077D90066229A /* code.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = code.txt; sourceTree = "<group>"; };
+		9EDDAA501CF07AF40066229A /* decode.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = decode.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,7 +65,15 @@
 		9EDDAA401CF0635D0066229A /* dsa_assign2 */ = {
 			isa = PBXGroup;
 			children = (
+				9EDDAA481CF063D70066229A /* binnode.h */,
+				9EDDAA491CF063D70066229A /* bintree.h */,
+				9EDDAA4A1CF063D70066229A /* const_iterator.h */,
+				9EDDAA4B1CF063D70066229A /* morsecodes.txt */,
 				9EDDAA411CF0635D0066229A /* main.cpp */,
+				9EDDAA4D1CF066F10066229A /* MorseCode.h */,
+				9EDDAA4E1CF077C10066229A /* english.txt */,
+				9EDDAA4F1CF077D90066229A /* code.txt */,
+				9EDDAA501CF07AF40066229A /* decode.txt */,
 			);
 			path = dsa_assign2;
 			sourceTree = "<group>";
