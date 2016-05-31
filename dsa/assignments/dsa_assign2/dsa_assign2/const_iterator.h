@@ -50,7 +50,7 @@ template <typename dataType> class const_iterator
          if (current == NULL) 
          { 
             throw std::invalid_argument("Attempting to reference outside tree"); 
-         } 
+         }
          return &(current->nodeData); 
       } 
          

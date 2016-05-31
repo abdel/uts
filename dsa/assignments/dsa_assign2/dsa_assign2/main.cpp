@@ -6,70 +6,56 @@
 //  Copyright © 2016 Abdelrahman Ahmed. All rights reserved.
 //
 
-#include <list>
-#include <cctype>
 #include <fstream>
 #include <iostream>
-#include <stdexcept>
-#include "bintree.h"
-#include "MorseCode.h"
+#include "MorseEncoder.h"
+#include "MorseDecoder.h"
 
 using namespace std;
-
-void printList(const list<char> &myList);
-void fillList(list<char> &myList, const string &vowels);
-void changeCase(list <char> &myList);
-
-void printList(const list<char> &myList)
-{
-   list<char>::const_iterator itr;
-   
-   for (itr = myList.begin(); itr != myList.end(); itr++ ) {
-      cout << ' ' << *itr;
-   }
-   cout << '\n';
-}
-
-void fillList(list<char> &myList, const string &vowels)
-{
-   for (int i = 0; i<vowels.length(); i++) {
-      myList.push_back(vowels[i]);
-   }
-}
-
-void changeCase(list <char> &myList)
-{
-   list<char>::iterator itr;
-   
-   for (itr = myList.begin(); itr != myList.end(); itr++ ) {
-      if (islower(*itr)) *itr = toupper(*itr);
-      else *itr = toupper(*itr);
-   }
-}
 
 int main(int argc, const char * argv[])
 {
    try
    {
       // Check for argument syntax
-      if (argc != 4)
+      if (argc != 4 || (argv[1][0] != 'd' && argv[1][0] != 'e') || argv[2] == argv[3])
       {
-         throw runtime_error("ERROR Syntax: program e|d filein fileout");
+         string message = "Syntax: morse e|d filein fileout\n"
+         "e for encoding english to morse, filein to fileout\n"
+         "d for decoding morse to english, filein to fileout\n"
+         "filein and fileout must be different files";
+         
+         throw runtime_error(message);
       }
       
-      char code = argv[1][0];
-      const char * filein = argv[2] ? argv[2] : "";
-      const char * fileout = argv[3] ? argv[3] : "";
+      // Open input file
+      ifstream in;
+      in.open(argv[2]);
       
-      if (code == 'e' || code == 'd')
+      // Open output file
+      ofstream out;
+      out.open(argv[3]);
+      
+      // Either (e) for encoding,
+      // or, (d) for decoding
+      if (argv[1][0] == 'e')
       {
-         MorseCode morse = *new MorseCode(code, filein, fileout);
-         morse.translate();
+         MorseEncoder encoder = *new MorseEncoder();
+         encoder.encode(in, out);
       }
+      else if (argv[1][0] == 'd')
+      {
+         MorseDecoder decoder = *new MorseDecoder();
+         decoder.decode(in, out);
+      }
+      
+      in.close();
+      out.close();
    }
    catch (exception& e)
    {
       cout << e.what() << endl;
+      return 1;
    }
    
    return 0;
