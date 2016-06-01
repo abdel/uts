@@ -252,8 +252,6 @@
          speed -= 0.6;
       }
       
-      printf("%f\n", speed);
-      
       // Make sure we don't pass the bubble limit
       if ([bubblesOnScreen count] > numberOfBubbles)
       {

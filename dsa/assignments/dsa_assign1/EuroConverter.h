@@ -148,7 +148,7 @@ void EuroConverter::applyRules()
    while (itr != text.end())
    {
       // Only apply rules to words (alphanumeric)
-      if (isalpha(*itr))
+      if (isalnum(*itr))
       {
          int rule = 1;
          

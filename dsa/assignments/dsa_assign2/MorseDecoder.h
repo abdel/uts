@@ -8,7 +8,10 @@
 
 #ifndef MorseDecoder_h
 #define MorseDecoder_h
-#define morseCodeSource "/Users/Abdel/Projects/uts/dsa/assignments/dsa_assign2/dsa_assign2/morsecodes.txt"
+
+#ifndef morseCodeSource
+#define morseCodeSource "./morsecodes.txt"
+#endif
 
 #include <string>
 #include <cctype>
@@ -17,28 +20,13 @@
 #include <iostream>
 #include <stdexcept>
 #include "bintree.h"
+#include "morseToEnglish.h"
 
 using namespace std;
 
 class MorseDecoder
 {
    private:
-      struct morseToEnglish
-      {
-         string morse;
-         char letter;
-         
-         bool operator ==(const morseToEnglish& l) const
-         {
-            return morse == l.morse;
-         }
-         
-         bool operator <(const morseToEnglish& l) const
-         {
-            return morse < l.morse;
-         }
-      };
-      
       // Binary tree for morse codes
       treespc::bintree<morseToEnglish> bintreeMorse;
       
@@ -53,7 +41,7 @@ class MorseDecoder
          // Check if file can be read
          if (!source.is_open())
          {
-            throw runtime_error("ERROR unable to read file");
+            throw runtime_error("ERROR unable to read morsecodes.txt");
          }
          
          // Read line by line
@@ -79,17 +67,23 @@ class MorseDecoder
       }
    
    public:
-      MorseDecoder()
-      {
-      }
+      MorseDecoder() {}
    
       // Handles the decoding process by using loadSource to load
       // the morse codes into a binary tree and balacnes the tree.
       // Loads the input & output files and using the morse:letter map, it goes through the
       // input file line by line first then checks character by character on that line.
       // Constructs a morse string from the characters, then outputs the associated letter.
-      void decode(ifstream &in, ofstream &out)
+      void decode(const char * filein, const char * fileout)
       {
+         // Open input file
+         ifstream in;
+         in.open(filein);
+         
+         // Open output file
+         ofstream out;
+         out.open(fileout);
+
          // Check if file can be read
          if (!in.is_open() || !out.is_open())
          {
@@ -97,7 +91,6 @@ class MorseDecoder
          }
          
          char c;
-         string line;
          string output;
          
          // Load morse code source into binary tree
@@ -106,56 +99,44 @@ class MorseDecoder
          // Rebalance tree
          bintreeMorse.rebalance();
          
-         // Read line by line
-         while (getline(in, line))
+         // Read character by character
+         while (in.get(c))
          {
-            istringstream buffer(line);
-            
-            // Get each character in a line
-            while (buffer.get(c))
+            // Add morse only chars to output
+            if (c == '*' || c == '-')
             {
-               // Add morse only chars to output
-               if (c == '*' || c == '-')
-               {
-                  output += c;
+               output += c;
+            }
+            else if (c != ' ' && c != '\n' && output == "")
+            {
+               // Retain regular characters
+               out << c;
+            }
+            // If not in morse format, or approaching end of line
+            else if (c == ' ' || c == '\n' || in.peek() == -1 || in.peek() == 10)
+            {
+               // Get letter from morse
+               try {
+                  treespc::const_iterator<morseToEnglish> iter;
+                  morseToEnglish findMorse;
+                  findMorse.morse = output;
+                  
+                  iter = bintreeMorse.find(findMorse);
+                  out << iter->letter;
                }
-               else if (c != ' ' && output == "")
+               catch (exception &e)
                {
-                  // Retain regular characters
+                  // Output line or space
                   out << c;
-                  //output = "";
                }
                
-               // If not in morse format, or approaching end of line
-               if ((c != '*' && c != '-') || buffer.peek() == -1)
-               {
-                  // Print a space
-                  if (output == "" && c == ' ')
-                  {
-                     out << " ";
-                  }
-                  
-                  // Get letter from morse
-                  try {
-                     treespc::const_iterator<morseToEnglish> iter;
-                     morseToEnglish findMorse;
-                     findMorse.morse = output;
-                     
-                     iter = bintreeMorse.find(findMorse);
-                     out << iter->letter;
-                     
-                     output = "";
-                  }
-                  catch (exception &e)
-                  {
-                     output = "";
-                     //continue;
-                  }
-               }
+               // Reset output
+               output = "";
             }
-            
-            out << endl;
          }
+
+         in.close();
+         out.close();
       }
 };
 

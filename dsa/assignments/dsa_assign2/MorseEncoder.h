@@ -8,7 +8,10 @@
 
 #ifndef MorseEncoder_h
 #define MorseEncoder_h
-#define morseCodeSource "/Users/Abdel/Projects/uts/dsa/assignments/dsa_assign2/dsa_assign2/morsecodes.txt"
+
+#ifndef morseCodeSource
+#define morseCodeSource "./morsecodes.txt"
+#endif
 
 #include <string>
 #include <cctype>
@@ -18,23 +21,13 @@
 #include <iostream>
 #include <stdexcept>
 #include <algorithm>
+#include "englishToMorse.h"
 
 using namespace std;
 
 class MorseEncoder
 {
    private:
-      struct englishToMorse
-      {
-         char letter;
-         string morse;
-         
-         bool operator ==(char l) const
-         {
-            return letter == l;
-         }
-      };
-      
       // Vector for morse codes
       vector<englishToMorse> vectorMorse;
    
@@ -49,7 +42,7 @@ class MorseEncoder
          // Check if file can be read
          if (!source.is_open())
          {
-            throw runtime_error("ERROR unable to read file");
+            throw runtime_error("ERROR unable to read morsecodes.txt");
          }
          
          // Read line by line
@@ -81,8 +74,16 @@ class MorseEncoder
       // the morse codes into a vector, loading the input & output files and
       // using the letter:morse map, it goes through the input file character by character
       // to output associated morse code to the output file.
-      void encode(ifstream &in, ofstream &out)
+      void encode(const char * filein, const char * fileout)
       {
+         // Open input file
+         ifstream in;
+         in.open(filein);
+         
+         // Open output file
+         ofstream out;
+         out.open(fileout);
+      
          // Check if file can be read
          if (!in.is_open() || !out.is_open())
          {
@@ -91,7 +92,6 @@ class MorseEncoder
          
          char c;
          string output;
-         bool newLine = true;
          
          // Load morse code source into vector
          loadSourceIntoVector();
@@ -108,11 +108,11 @@ class MorseEncoder
             vector<englishToMorse>::iterator iter;
             iter = find(vectorMorse.begin(), vectorMorse.end(), c);
             
-            // Print newline character
+            // Print newline
             if (c == '\n')
             {
+               // Print a newline
                out << endl;
-               newLine = true;
             }
             else if (c == ' ')
             {
@@ -121,26 +121,18 @@ class MorseEncoder
             }
             else if (iter != vectorMorse.end())
             {
-               // Print the morse code
-               output = iter->morse;
-               
-               // To avoid trailing space, print morse with preceding space
-               if (newLine == false)
-               {
-                  out << " " << output;
-               }
-               else
-               {
-                  // If beginning new line, print without a space
-                  out << iter->morse;
-                  newLine = false;
-               }
+               // Print associated morse with trailing space
+               out << iter->morse << " ";
             }
             else
             {
+               // Retain regular chars
                out << c;
             }
          }
+
+         in.close();
+         out.close();
       }
 };
 
